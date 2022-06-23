@@ -282,6 +282,13 @@ main {
   --grid-maxWidth: 65rem;
 }
 
+hr.spacer {
+  --total-margin: 10rem;
+  margin-top: calc(var(--total-margin) / 2);
+  margin-bottom: calc(var(--total-margin) / 2);
+  opacity: 0;
+}
+
 .hide-me {
   background-color: var(--color-error);
   color: var(--color-lightGrey);

@@ -27,6 +27,10 @@ export class MyQuery {
         }
     }
 
+    get node(): HTMLElement {
+        return this.elements[0];
+    }
+
     each(fn: (element:MyQuery)=>any) {
         this.elements.forEach(element => {
             fn(new MyQuery(element));
@@ -36,7 +40,7 @@ export class MyQuery {
 
     attr(key: string, val: any = undefined) {
         if (val === undefined) {
-            return this.elements[0].getAttribute(key);
+            return this.node.getAttribute(key);
         } else {
             this.elements.forEach(item => {
                 if (val) {
@@ -45,25 +49,25 @@ export class MyQuery {
                     item.removeAttribute(key);
                 }
             });
-            return this.elements[0].getAttribute(key);
+            return this.node.getAttribute(key);
         }
     }
 
     addClass(clas: string) {
         return this.each(item => {
-            item.elements[0].classList.add(clas);
+            item.node.classList.add(clas);
         });
     }
 
     removeClass(clas: string) {
         return this.each(item => {
-            item.elements[0].classList.remove(clas);
+            item.node.classList.remove(clas);
         });
     }
 
     toggleClass(clas: string) {
         return this.each(item => {
-            item.elements[0].classList.toggle(clas);
+            item.node.classList.toggle(clas);
         });
     }
 
@@ -92,7 +96,7 @@ export class MyQuery {
 
     on(event:keyof HTMLElementEventMap, handler:any) {
         return this.each(item => {
-            item.elements[0].addEventListener(event, handler);
+            item.node.addEventListener(event, handler);
         });
     }
 
@@ -111,6 +115,34 @@ export class MyQuery {
     fadeToggle() {
         return this.toggleClass('fade');
     }
+
+    text(val: any = undefined) {
+        if (val === undefined) {
+            return this.node.textContent;
+        } else {
+            if (val) {
+                return this.each(item => {
+                    item.node.textContent = String(val);
+                });
+            } else {
+                return this.each(item => {
+                    item.node.textContent = "";
+                });
+            }
+        }
+    }
+
+    html(val?: string) {
+        if (val === undefined) {
+            return this.node.innerHTML;
+        } else {
+            return this.each(item => {
+                item.node.innerHTML = val;
+            });
+        }
+    }
+
+
 
 }
 
