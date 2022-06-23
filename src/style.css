@@ -296,6 +296,19 @@ hr.spacer {
   border-radius: 5px;
 }
 
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+.button-grid > .button {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------- */
+
 .fade, .fade-out {
   opacity: 0;
   transition: opacity 1s ease;

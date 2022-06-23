@@ -142,7 +142,20 @@ export class MyQuery {
         }
     }
 
+    remove() {
+        return this.each(item => {
+            item.node.remove();
+        });
+    }
 
+    empty() {
+        return this.each(item => {
+            // NOTE:
+            // I don't know the performance of this vs removing each child manually
+            // but simplicity and readability is key in this little example
+            item.node.innerHTML = "";
+        })
+    }
 
 }
 
