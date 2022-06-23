@@ -39,7 +39,11 @@ export class MyQuery {
             this.elements[0].getAttribute(key);
         } else {
             this.elements.forEach(item => {
-                item.setAttribute(key, String(val));
+                if (val) {
+                    item.setAttribute(key, String(val));
+                } else {
+                    item.removeAttribute(key);
+                }
             });
         }
     }
@@ -48,6 +52,22 @@ export class MyQuery {
         this.each((item:MyQuery) => {
             item.attr('hidden', true);
         });
+    }
+
+    show() {
+        this.each((item:MyQuery) => {
+            item.attr('hidden', null);
+        });
+    }
+
+    on(event:keyof HTMLElementEventMap, handler:any) {
+        this.each(item => {
+            item.elements[0].addEventListener(event, handler);
+        });
+    }
+
+    click(handler: (e:MouseEvent)=>void) {
+        this.on('click', handler);
     }
 
 }
