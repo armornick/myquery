@@ -36,7 +36,7 @@ export class MyQuery {
 
     attr(key: string, val: any = undefined) {
         if (val === undefined) {
-            this.elements[0].getAttribute(key);
+            return this.elements[0].getAttribute(key);
         } else {
             this.elements.forEach(item => {
                 if (val) {
@@ -45,29 +45,71 @@ export class MyQuery {
                     item.removeAttribute(key);
                 }
             });
+            return this.elements[0].getAttribute(key);
         }
+    }
+
+    addClass(clas: string) {
+        return this.each(item => {
+            item.elements[0].classList.add(clas);
+        });
+    }
+
+    removeClass(clas: string) {
+        return this.each(item => {
+            item.elements[0].classList.remove(clas);
+        });
+    }
+
+    toggleClass(clas: string) {
+        return this.each(item => {
+            item.elements[0].classList.toggle(clas);
+        });
     }
 
     hide() {
         this.each((item:MyQuery) => {
             item.attr('hidden', true);
         });
+        return this;
     }
 
     show() {
-        this.each((item:MyQuery) => {
+        return this.each((item:MyQuery) => {
             item.attr('hidden', null);
         });
     }
 
+    toggle() {
+        return this.each(item => {
+            if (item.attr('hidden')) {
+                item.attr('hidden', null);
+            } else {
+                item.attr('hidden', true);
+            }
+        })
+    }
+
     on(event:keyof HTMLElementEventMap, handler:any) {
-        this.each(item => {
+        return this.each(item => {
             item.elements[0].addEventListener(event, handler);
         });
     }
 
     click(handler: (e:MouseEvent)=>void) {
-        this.on('click', handler);
+        return this.on('click', handler);
+    }
+
+    fadeIn() {
+        return this.addClass('fade-in');
+    }
+
+    fadeOut() {
+        return this.addClass('fade-out');
+    }
+
+    fadeToggle() {
+        return this.toggleClass('fade');
     }
 
 }
