@@ -157,6 +157,29 @@ export class MyQuery {
         })
     }
 
+    css(input: string|object, value?:string){
+        if (typeof(input) === 'object' || value) {
+            return this.each(item => {
+                if (typeof(input) === 'object') {
+                    const properties = Object.keys(input);
+                    for (const property of properties) {
+                        Reflect.set(item.node.style, property, Reflect.get(input, property));
+                    }
+                }
+                else {
+                    if (value) {
+                        const styles = window.getComputedStyle(item.node);
+                        Reflect.set(styles, input, value);
+                    }
+                }
+            });
+        }
+        else {
+            const styles = window.getComputedStyle(this.node);
+            return Reflect.get(styles, input);
+        }
+    }
+
 }
 
 export default function $(query: QueryInput) {
