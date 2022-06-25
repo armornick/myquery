@@ -198,6 +198,10 @@ export class MyQuery {
         return output;
     }
 
+    find(query: string) {
+        return this.node.querySelectorAll(query);
+    }
+
 }
 
 export default function $(query: QueryInput) {
