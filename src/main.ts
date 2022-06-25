@@ -17,3 +17,5 @@ $('.style-me').css({
 });
 
 console.log($('.style-me').css('color'));
+
+$('main').children('ul').map(child => $(child).css('color', 'green'));

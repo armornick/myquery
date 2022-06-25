@@ -1,5 +1,5 @@
 
-type QueryInput = string | HTMLElement | HTMLElement[] | NodeList;
+type QueryInput = string | HTMLElement | Element | HTMLElement[] | NodeList;
 
 export class MyQuery {
 
@@ -21,6 +21,9 @@ export class MyQuery {
         }
         else if (query instanceof HTMLElement) {
             this.elements = [query];
+        }
+        else if (query instanceof Element) {
+            this.elements = [ (<HTMLElement>query) ];
         }
         else {
             throw new Error(`invalid input for MyQuery; got ${ String(query) }`);
@@ -168,8 +171,7 @@ export class MyQuery {
                 }
                 else {
                     if (value) {
-                        const styles = window.getComputedStyle(item.node);
-                        Reflect.set(styles, input, value);
+                        Reflect.set(this.node.style, input, value);
                     }
                 }
             });
@@ -178,6 +180,22 @@ export class MyQuery {
             const styles = window.getComputedStyle(this.node);
             return Reflect.get(styles, input);
         }
+    }
+
+    parent() {
+        return this.node.parentElement;
+    }
+
+    children(query?: string) {
+        const output = [];
+        let child = this.node.firstElementChild;
+        while (child) {
+            if ((query && child.matches(query)) || !query) {
+                output.push(child);
+            }
+            child = child.nextElementSibling;
+        }
+        return output;
     }
 
 }
